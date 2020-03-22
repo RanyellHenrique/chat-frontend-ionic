@@ -22,7 +22,7 @@ export class HomePage {
   }
 
   login(){
-    this.navCtrl.setRoot('ConversasPage');
+    this.navCtrl.setRoot('UsuariosPage');
   }
 
 }
