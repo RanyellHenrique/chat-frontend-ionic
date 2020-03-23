@@ -31,6 +31,15 @@ export class HomePage {
     this.menu.swipeEnable(true);
   }
 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('UsuariosPage');
+      },
+      error => {});
+  }
+
   login(){
     this.auth.authenticate(this.creds)
     .subscribe(response => {
@@ -38,6 +47,10 @@ export class HomePage {
       this.navCtrl.setRoot('UsuariosPage');
     },
     error => {});
+  }
+
+  signup() {
+    this.navCtrl.push('SignupPage');
   }
 
 }
