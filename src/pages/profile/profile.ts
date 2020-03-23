@@ -1,6 +1,8 @@
+import { UsuarioService } from './../../services/domain/usuario.service';
 import { StorageService } from './../../services/storage.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { UsuarioDTO } from '../../models/domain/Usuario.dto';
 
 @IonicPage()
 @Component({
@@ -9,18 +11,24 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
-  email : string;
+  usuario : UsuarioDTO;
+
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: StorageService) {
+    public storage: StorageService,
+    public usuarioService: UsuarioService) {
   }
 
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
     if(localUser && localUser.email){
-      this.email = localUser.email;
+      this.usuarioService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.usuario = response;
+        },
+        error => {});
     }
   }
 
