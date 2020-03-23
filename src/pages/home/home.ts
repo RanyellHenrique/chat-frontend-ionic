@@ -1,4 +1,4 @@
-import { AuthService } from './../../services/domain/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { CredenciaisDTO } from './../../models/domain/credenciais.dto';
 import { Component } from '@angular/core';
 import { NavController, IonicPage } from 'ionic-angular';
@@ -34,7 +34,7 @@ export class HomePage {
   login(){
     this.auth.authenticate(this.creds)
     .subscribe(response => {
-      console.log(response.headers.get('Authorization'));
+      this.auth.successfulLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot('UsuariosPage');
     },
     error => {});
