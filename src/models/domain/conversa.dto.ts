@@ -3,6 +3,6 @@ import { UsuarioDTO } from './Usuario.dto';
 
 export interface ConversasDTO{
   id : string;
-  usuarios : UsuarioDTO[];
+  usuarios? : UsuarioDTO[];
   mensagens? : MensagemDTO[];
 }

@@ -4,17 +4,25 @@
   </ion-navbar>
 </ion-header>
 
-
   <ion-content padding>
     <ion-list>
-      <ion-item ion-item *ngFor="let mensagem of mensagens">
-        <ion-thumbnail item-start>
-          <img src="assets/imgs/usuario.jpg">
-        </ion-thumbnail>
-        <h6>{{mensagem.usuario.nome}}</h6>
-        <h2> {{ mensagem.conteudo}} </h2>
-        <h6>{{mensagem.data}}</h6>
+      <ion-item ion-item *ngFor="let mensagem of mensagens" >
+          <ion-thumbnail item-end *ngIf="mensagem.usuario.email == emailUsuario" >
+            <img src="assets/imgs/usuario.jpg" class="circle">
+          </ion-thumbnail>
+          <ion-thumbnail item-start *ngIf="mensagem.usuario.email != emailUsuario" >
+            <img src="assets/imgs/usuario.jpg" class="circle">
+          </ion-thumbnail>
+          <p>{{mensagem.usuario.nome}}</p>
+          <h2 padding> {{ mensagem.conteudo}} </h2>
+          <p>{{mensagem.data}}</p>
       </ion-item>
     </ion-list>
+    <form>
+      <ion-item>
+        <ion-input [(ngModel)]="mensagem.conteudo" name="conteudo" type="text"></ion-input>
+      </ion-item>
+      <button ion-button block (click)="submitText()">Entrar</button>
+  </form>
   </ion-content>
 
