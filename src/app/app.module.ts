@@ -1,3 +1,4 @@
+import { ConversaService } from '../services/domain/conversa.service';
 import { AuthInterceptorProvider } from './../interceptors/auth-interceptor';
 import { StorageService } from './../services/storage.service';
 import { AuthService } from '../services/auth.service';
@@ -34,7 +35,8 @@ import { UsuarioService } from '../services/domain/usuario.service';
     AuthInterceptorProvider,
     ErrorInterceptorProvider,
     AuthService,
-    StorageService
+    StorageService,
+    ConversaService
   ]
 })
 export class AppModule {}

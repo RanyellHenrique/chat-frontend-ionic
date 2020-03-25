@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{conversa?.usuarios[0].nome}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+  <ion-content padding>
+    <ion-list>
+      <ion-item ion-item *ngFor="let mensagem of mensagens">
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/usuario.jpg">
+        </ion-thumbnail>
+        <h6>{{mensagem.usuario.nome}}</h6>
+        <h2> {{ mensagem.conteudo}} </h2>
+        <h6>{{mensagem.data}}</h6>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+

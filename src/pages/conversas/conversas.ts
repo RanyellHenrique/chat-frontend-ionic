@@ -1,5 +1,7 @@
+import { ConversaService } from '../../services/domain/conversa.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ConversasDTO } from '../../models/domain/conversa.dto';
 
 /**
  * Generated class for the ConversasPage page.
@@ -15,11 +17,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ConversasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  items : ConversasDTO[];
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public conversaService: ConversaService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConversasPage');
+   this.conversaService.findAll()
+    .subscribe(response => {
+      this.items = response;
+    },error =>{})
+  }
+
+  showDetail(conversaId : string){
+    this.navCtrl.push('ConversasDetailPage', {conversaId : conversaId});
   }
 
 }
