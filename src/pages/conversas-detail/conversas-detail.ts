@@ -20,8 +20,8 @@ export class ConversasDetailPage {
   emailUsuario : string;
   mensagem  = {
     conteudo: '',
-    usuario : {id: ''},
-    conversa : {id: ''},
+    usuario : {id: '1'},
+    conversa : {id: '1'}
   }
 
   constructor(
@@ -35,16 +35,38 @@ export class ConversasDetailPage {
   }
 
   ionViewDidLoad() {
+    this.usuarioLoggedIn();
     this.emailUsuario = this.storage.getLocalUser().email;
     let conversaId = this.navParams.get('conversaId');
     this.conversaService.findById(conversaId)
       .subscribe(response => {
         this.mensagens = response.mensagens;
         this.conversa = response;
+        this.mensagem.conversa.id = response.id;
       }, error =>{})
   }
 
   submitText(){
-    console.log(this.mensagem);
+    this.mensagemService.insert(this.mensagem)
+      .subscribe(response => {
+        this.conversaUpdateView();
+        this.mensagem.conteudo = ''
+      }, error => {})
   }
+
+  conversaUpdateView(){
+    this.conversaService.findById(this.conversa.id)
+      .subscribe(response =>{
+        this.mensagens = response.mensagens;
+        this.conversa = response;
+      }, error=>{})
+  }
+
+  usuarioLoggedIn(){
+    this.usuarioService.findByEmail(this.storage.getLocalUser().email)
+      .subscribe(response =>{
+        this.mensagem.usuario.id = response.id;
+      }, error=>{})
+  }
+
 }
