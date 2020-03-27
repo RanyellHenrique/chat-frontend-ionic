@@ -18,6 +18,7 @@ export class ConversasDetailPage {
   conversa : ConversasDTO;
   mensagens : MensagemDTO[];
   emailUsuario : string;
+  nameOtherUsuarioName: string = '';
   mensagem  = {
     conteudo: '',
     usuario : {id: '1'},
@@ -43,6 +44,7 @@ export class ConversasDetailPage {
         this.mensagens = response.mensagens;
         this.conversa = response;
         this.mensagem.conversa.id = response.id;
+        this.usuarioName();
       }, error =>{})
   }
 
@@ -67,6 +69,14 @@ export class ConversasDetailPage {
       .subscribe(response =>{
         this.mensagem.usuario.id = response.id;
       }, error=>{})
+  }
+
+  usuarioName(){
+    for(let i = 0 ; i < this.conversa.usuarios.length; i++ ){
+      if( this.emailUsuario != this.conversa.usuarios[i].email){
+        this.nameOtherUsuarioName = this.conversa.usuarios[i].nome;
+      }
+    }
   }
 
 }

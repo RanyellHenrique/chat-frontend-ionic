@@ -2,7 +2,7 @@ import { MensagemDTO } from './mensagem.dto';
 import { UsuarioDTO } from './Usuario.dto';
 
 export interface ConversasDTO{
-  id : string;
+  id? : string;
   usuarios? : UsuarioDTO[];
   mensagens? : MensagemDTO[];
 }

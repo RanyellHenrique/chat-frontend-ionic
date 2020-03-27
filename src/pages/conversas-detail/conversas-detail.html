@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{conversa?.usuarios[0].nome}}</ion-title>
+    <ion-title>{{nameOtherUsuarioName}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -18,11 +18,11 @@
           <p>{{mensagem.data}}</p>
       </ion-item>
     </ion-list>
-    <form>
-      <ion-item>
-        <ion-input [(ngModel)]="mensagem.conteudo" name="conteudo" type="text"></ion-input>
-      </ion-item>
-      <button ion-button block (click)="submitText()">enviar</button>
-  </form>
+      <form>
+        <ion-item>
+          <ion-input [(ngModel)]="mensagem.conteudo" name="conteudo" type="text" ></ion-input>
+        </ion-item>
+        <button ion-button  block (click)="submitText()">enviar</button>
+      </form>
   </ion-content>
 

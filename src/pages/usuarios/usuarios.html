@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let item of items">
+    <button ion-item (click)="createConversa(item)" *ngFor="let item of items">
       <ion-thumbnail item-start>
         <img src="assets/imgs/usuario.jpg">
       </ion-thumbnail>

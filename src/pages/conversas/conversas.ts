@@ -1,14 +1,9 @@
+import { UsuarioDTO } from './../../models/domain/Usuario.dto';
+import { ConversasDTO } from './../../models/domain/conversa.dto';
+import { StorageService } from './../../services/storage.service';
 import { ConversaService } from '../../services/domain/conversa.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ConversasDTO } from '../../models/domain/conversa.dto';
-
-/**
- * Generated class for the ConversasPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -18,17 +13,20 @@ import { ConversasDTO } from '../../models/domain/conversa.dto';
 export class ConversasPage {
 
   items : ConversasDTO[];
+  usuarioEmail: string = '';
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public conversaService: ConversaService) {
+    public conversaService: ConversaService,
+    public storage: StorageService) {
   }
 
   ionViewDidLoad() {
-   this.conversaService.findAll()
-    .subscribe(response => {
-      this.items = response;
+    this.usuarioEmail = this.storage.getLocalUser().email;
+    this.conversaService.findAll()
+      .subscribe(response => {
+        this.items = response;
     },error =>{})
   }
 
@@ -36,4 +34,13 @@ export class ConversasPage {
     this.navCtrl.push('ConversasDetailPage', {conversaId : conversaId});
   }
 
+  showUsuario(usuarios : UsuarioDTO[]){
+    let nameUsuario = '';
+    usuarios.forEach((u) =>{
+      if( u.email != this.usuarioEmail){
+        nameUsuario = u.nome;
+      }
+    })
+    return nameUsuario;
+  }
 }
