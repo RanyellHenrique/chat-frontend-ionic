@@ -2,6 +2,7 @@ import { MensagemService } from './../../services/domain/mensagem.service';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ConversasDetailPage } from './conversas-detail';
+import { EncryptionService} from '../../services/encryption.service';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { ConversasDetailPage } from './conversas-detail';
     IonicPageModule.forChild(ConversasDetailPage),
   ],
   providers:[
-    MensagemService
+    MensagemService,
+    EncryptionService
   ]
 })
 export class ConversasDetailPageModule {}

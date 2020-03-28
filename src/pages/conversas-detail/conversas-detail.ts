@@ -6,7 +6,8 @@ import { MensagemDTO } from './../../models/domain/mensagem.dto';
 import { ConversasDTO } from './../../models/domain/conversa.dto';
 import { ConversaService } from '../../services/domain/conversa.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { EncryptionService } from '../../services/encryption.service';
 
 @IonicPage()
 @Component({
@@ -18,6 +19,7 @@ export class ConversasDetailPage {
   conversa : ConversasDTO;
   mensagens : MensagemDTO[];
   emailUsuario : string;
+  key: string;
   nameOtherUsuarioName: string = '';
   mensagem  = {
     conteudo: '',
@@ -32,7 +34,9 @@ export class ConversasDetailPage {
     public storage: StorageService,
     public mensagemService: MensagemService,
     public usuarioService: UsuarioService,
-    public auth: AuthService) {
+    public auth: AuthService,
+    public encryptionService: EncryptionService,
+    public alertCtrl : AlertController) {
   }
 
   ionViewDidLoad() {
@@ -46,14 +50,23 @@ export class ConversasDetailPage {
         this.mensagem.conversa.id = response.id;
         this.usuarioName();
       }, error =>{})
+
   }
 
   submitText(){
-    this.mensagemService.insert(this.mensagem)
-      .subscribe(response => {
-        this.conversaUpdateView();
-        this.mensagem.conteudo = ''
-      }, error => {})
+    if(this.key != null){
+      if(this.mensagem.conteudo.length > 0){
+        this.mensagem.conteudo = this.encryptionService
+          .encryptOutput(this.mensagem.conteudo, this.key);
+        this.mensagemService.insert(this.mensagem)
+          .subscribe(response => {
+            this.mensagem.conteudo = ''
+            this.conversaUpdateView();
+          }, error => {})
+      }
+    }else{
+      this.keyCryptografia();
+    }
   }
 
   conversaUpdateView(){
@@ -61,6 +74,7 @@ export class ConversasDetailPage {
       .subscribe(response =>{
         this.mensagens = response.mensagens;
         this.conversa = response;
+        this.encryptionService.decryptOutput(this.mensagens, this.key);
       }, error=>{})
   }
 
@@ -78,5 +92,29 @@ export class ConversasDetailPage {
       }
     }
   }
+
+  keyCryptografia() {
+    let alert = this.alertCtrl.create({
+        title: 'Chave de Criptografia',
+        message: 'Digite a chave',
+        enableBackdropDismiss: false,
+        buttons: [
+            {
+              text: 'Ok',
+              handler: data => {
+                this.key = data.key;
+                this.conversaUpdateView();
+              }
+            }
+        ],
+        inputs: [
+          {
+            name: 'key',
+            placeholder: 'chave'
+          },
+        ]
+    });
+    alert.present();
+}
 
 }
