@@ -35,12 +35,25 @@ export class ConversasPage {
   }
 
   showUsuario(usuarios : UsuarioDTO[]){
-    let nameUsuario = '';
-    usuarios.forEach((u) =>{
-      if( u.email != this.usuarioEmail){
-        nameUsuario = u.nome;
+    let usuarioConversa = {
+      nome: '',
+      imagem: ''}
+    usuarios.forEach((usuario) =>{
+      if( usuario.email != this.usuarioEmail){
+        usuarioConversa.nome = usuario.nome;
+        usuarioConversa.imagem = this.imagemShow(usuario);
       }
     })
-    return nameUsuario;
+    return usuarioConversa;
   }
+
+  imagemShow(usuario : UsuarioDTO): string{
+    let id = Number(usuario.id);
+    if(id < 10){
+      return `assets/imgs/user/user${id}.png`;
+    }
+    return usuario.imagem = 'assets/imgs/user/usuario.jpg';
+  }
+
+
 }

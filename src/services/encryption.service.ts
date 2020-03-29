@@ -15,9 +15,9 @@ export class EncryptionService{
 
   decryptOutput(mensagens : MensagemDTO[], key : string){
     if(mensagens.length > 0){
-      if( this.validatorKey(mensagens[0].conteudo, key) != ''){
+      if(this.validatorKey(mensagens, key)){
         mensagens.forEach(mensagem =>{
-          mensagem.conteudo = this.validatorKey(mensagem.conteudo, key);
+          mensagem.conteudo = this.decrypt(mensagem.conteudo, key);
         })
       }else{
         let alert = this.alertCtrl.create({
@@ -35,7 +35,18 @@ export class EncryptionService{
     }
   }
 
-  validatorKey(mensagem : string, key : string): string{
+  validatorKey(mensagens : MensagemDTO[], key : string): boolean{
+    let response = true
+    for(let i=0; i< mensagens.length; i++){
+      if(this.decrypt(mensagens[i].conteudo, key) == ''){
+        response = false;
+      }
+    }
+    return response;
+
+  }
+
+  decrypt(mensagem: string, key: string): string{
     return CryptoJS.AES
       .decrypt(mensagem.trim(), key.trim()).toString(CryptoJS.enc.Utf8);
   }

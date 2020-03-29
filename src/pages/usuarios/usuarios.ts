@@ -13,9 +13,9 @@ import { UsuarioService } from '../../services/domain/usuario.service';
 })
 export class UsuariosPage {
 
-  items : UsuarioDTO[];
+  items : UsuarioDTO[] = [];
   conversa: ConversasDTO[];
-  usuarioLocalId : UsuarioDTO;
+  usuarioLocal : UsuarioDTO;
   conversaCreate: ConversasDTO = {
     id: null,
     usuarios : []
@@ -33,11 +33,17 @@ export class UsuariosPage {
     this.setUsuarioLocal();
     this.usuarioService.findAll()
       .subscribe(response => {
-        this.items = response;
+        this.showUsuarios(response);
+        this.imagemShow();
       }, error => {})
   }
 
-  showUsuarios(){
+  showUsuarios(usuarios : UsuarioDTO[]){
+    for(let i=0; i< usuarios.length; i++){
+      if(this.storage.getLocalUser().email != usuarios[i].email){
+       this.items.push(usuarios[i]);
+      }
+    }
   }
 
   Conversas(){
@@ -61,5 +67,16 @@ export class UsuariosPage {
       .subscribe(response => {
         this.conversaCreate.usuarios.push({id : `${response.id}`});
       }, error => {})
+  }
+
+  imagemShow(){
+    this.items.forEach(usuario => {
+      let id = Number(usuario.id);
+      if(id < 10){
+        usuario.imagem = `assets/imgs/user/user${id}.png`;
+      }else{
+        usuario.imagem = 'assets/imgs/user/usuario.jpg';
+      }
+    })
   }
 }

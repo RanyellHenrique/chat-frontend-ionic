@@ -4,72 +4,34 @@
   </ion-navbar>
 </ion-header>
 
-<!--  <ion-content padding>
-    <ion-fab top right edge>
-      <button navPush="UsuariosPage" ion-fab mini><ion-icon name="ios-construct"></ion-icon></button>
-    </ion-fab>
-    <ion-list>
-      <ion-item ion-item *ngFor="let mensagem of mensagens" >
-          <ion-thumbnail item-end *ngIf="mensagem.usuario.email == emailUsuario" >
-            <img src="assets/imgs/usuario.jpg" class="circle">
-          </ion-thumbnail>
-          <ion-thumbnail item-start *ngIf="mensagem.usuario.email != emailUsuario" >
-            <img src="assets/imgs/usuario.jpg" class="circle">
-          </ion-thumbnail>
-          <p>{{mensagem.usuario.nome}}</p>
-          <h2 padding> {{ mensagem.conteudo}} </h2>
-          <p>{{mensagem.data}}</p>
-      </ion-item>
-    </ion-list>
-    <ion-fab right vertical="bottom" horizontal="end" slot="fixed">
-      <button  ion-fab (click)="submitText()">
-        <ion-icon name="send" expand="icon-only"></ion-icon>
-      </button>
-    </ion-fab>
-  </ion-content>
-  <ion-footer>
-  <form>
-      <ion-item >
-        <ion-input [(ngModel)]="mensagem.conteudo" name="conteudo" type="text" ></ion-input>
-      </ion-item>
-      <button ion-button block (click)="submitText()">Enviar</button>
-    </form>
-  </ion-footer>
-  <ion-footer translucent>
-    <ion-item>
-      <ion-icon slot="start" name="camera" expand="icon-only" class="footerIcon"></ion-icon>
-      <ion-input class="input-box" type="text" placeholder="Write a message..." [(ngModel)]="mensagem.conteudo" name="conteudo" type="text"></ion-input>
-    </ion-item>
-  </ion-footer>-->
-
-  <ion-content>
-
-    <div class="message-wrap">
-
-      <div *ngFor="let item of mensagens"
-           class="message"
-           [class.left]=" item.usuario.email !== emailUsuario "
-           [class.right]=" item.usuario.email === emailUsuario ">
-        <img class="user-img" src="assets/imgs/usuario.jpg">
-        <div class="msg-detail">
-          <div class="msg-info">
-            <p>{{item.usuario.nome}},{{item.data}}</p>
-          </div>
-          <div class="msg-content">
-            <span class="triangle"></span>
-            <p class="line-breaker ">{{item.conteudo}}</p>
-          </div>
+<ion-content>
+  <div class="message-wrap">
+    <div *ngFor="let item of mensagens"
+      class="message"
+      [class.left]=" item.usuario.email !== emailUsuario "
+      [class.right]=" item.usuario.email === emailUsuario ">
+      <img class="user-img" [src]="item.usuario.imagem">
+      <div class="msg-detail">
+        <div class="msg-info">
+          <p>{{item.usuario.nome}},{{item.data}}</p>
+        </div>
+        <div class="msg-content">
+          <span class="triangle"></span>
+          <p class="line-breaker ">{{item.conteudo}}</p>
         </div>
       </div>
     </div>
-    <ion-fab top right edge>
-      <button (click)="keyCryptografia()" ion-fab mini><ion-icon name="ios-construct"></ion-icon></button>
-    </ion-fab>
-  </ion-content>
+  </div>
+  <ion-fab top right edge>
+    <button (click)="keyCryptografia()" ion-fab>
+      <ion-icon name="ios-key-outline"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
 
   <ion-footer translucent >
     <div class="input-wrap">
-      <ion-input #chat_input [(ngModel)]="mensagem.conteudo" name="conteudo" type="text"  o></ion-input>
+      <ion-input #chat_input [(ngModel)]="mensagem.conteudo" name="conteudo" maxlength="128" type="text"  placeholder="Digite o texto..."></ion-input>
       <button ion-button clear icon-only item-right (click)="submitText()">
         <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
       </button>

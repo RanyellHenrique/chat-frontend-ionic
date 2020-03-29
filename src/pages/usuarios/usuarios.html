@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Usuarios</ion-title>
+    <ion-title>Nova Conversa</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,7 +11,7 @@
   <ion-list>
     <button ion-item (click)="createConversa(item)" *ngFor="let item of items">
       <ion-thumbnail item-start>
-        <img src="assets/imgs/usuario.jpg">
+        <img [src]="item.imagem || 'assets/imgs/avatar.jpg'" class="circle">
       </ion-thumbnail>
       <h2> {{ item.nome }} </h2>
     </button>

@@ -20,6 +20,7 @@ export class ConversasDetailPage {
   mensagens : MensagemDTO[];
   emailUsuario : string;
   key: string;
+  keyValidator: boolean = false;
   nameOtherUsuarioName: string = '';
   mensagem  = {
     conteudo: '',
@@ -49,12 +50,13 @@ export class ConversasDetailPage {
         this.conversa = response;
         this.mensagem.conversa.id = response.id;
         this.usuarioName();
+        this.imagemShow()
       }, error =>{})
 
   }
 
   submitText(){
-    if(this.key != null){
+    if(this.key != null && this.keyValidator){
       if(this.mensagem.conteudo.length > 0){
         this.mensagem.conteudo = this.encryptionService
           .encryptOutput(this.mensagem.conteudo, this.key);
@@ -75,6 +77,7 @@ export class ConversasDetailPage {
         this.mensagens = response.mensagens;
         this.conversa = response;
         this.encryptionService.decryptOutput(this.mensagens, this.key);
+        this.imagemShow();
       }, error=>{})
   }
 
@@ -103,6 +106,8 @@ export class ConversasDetailPage {
               text: 'Ok',
               handler: data => {
                 this.key = data.key;
+                this.keyValidator = this.encryptionService
+                  .validatorKey(this.mensagens, this.key);
                 this.conversaUpdateView();
               }
             }
@@ -115,6 +120,17 @@ export class ConversasDetailPage {
         ]
     });
     alert.present();
+}
+
+imagemShow(){
+  this.mensagens.forEach(mensagem => {
+    let id = Number(mensagem.usuario.id);
+    if(id < 10){
+      mensagem.usuario.imagem = `assets/imgs/user/user${id}.png`;
+    }else{
+      mensagem.usuario.imagem = 'assets/imgs/user/usuario.jpg';
+    }
+  })
 }
 
 }

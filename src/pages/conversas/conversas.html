@@ -11,12 +11,13 @@
   <ion-list>
     <button ion-item (click)="showDetail(item.id)" *ngFor="let item of items">
       <ion-thumbnail item-start>
-        <img src='assets/imgs/usuario.jpg' class="circle">
+        <img [src]='showUsuario(item.usuarios).imagem' class="circle">
       </ion-thumbnail>
-      <h2> {{ showUsuario(item.usuarios)}} </h2>
+      <h2> {{ showUsuario(item.usuarios).nome}} </h2>
+      <p>Conversa nº:{{item.id}}</p>
     </button>
   </ion-list>
   <ion-fab bottom right>
-    <button navPush="UsuariosPage" ion-fab mini><ion-icon name="md-add"></ion-icon></button>
+    <button navPush="UsuariosPage" ion-fab><ion-icon name="ios-chatbubbles"></ion-icon></button>
   </ion-fab>
 </ion-content>
