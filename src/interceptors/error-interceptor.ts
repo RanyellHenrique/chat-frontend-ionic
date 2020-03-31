@@ -77,6 +77,20 @@ export class ErrorInterceptor implements HttpInterceptor {
     alert.present();
   }
 
+  handle500(){
+    let alert = this.alertCtrl.create({
+      title: 'Erro 500: Validação',
+      message: 'Email já existente',
+      enableBackdropDismiss: false,
+      buttons: [
+          {
+              text: 'Ok'
+          }
+      ]
+  });
+  alert.present();
+  }
+
   handleDefaultEror(errorObj) {
     let alert = this.alertCtrl.create({
         title: 'Erro ' + errorObj.status + ': ' + errorObj.error,

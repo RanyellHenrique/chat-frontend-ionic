@@ -1,3 +1,3 @@
 export const API_CONFIG = {
-  baseUrl : 'http://localhost:8080'
+  baseUrl : 'https://chat-aps2.herokuapp.com'
 }

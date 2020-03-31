@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-avatar>
-    <img class="circle" src="assets/imgs/avatar.jpg">
+    <img class="circle" [src]='usuario?.imagem'>
   </ion-avatar>
   <h2 text-center>{{usuario?.nome}}</h2>
   <p text-center>{{usuario?.email}}</p>

@@ -23,9 +23,9 @@ export class ConversasDetailPage {
   keyValidator: boolean = false;
   nameOtherUsuarioName: string = '';
   mensagem  = {
-    conteudo: '',
-    usuario : {id: '1'},
-    conversa : {id: '1'}
+    conteudo: null,
+    usuario : {id: null},
+    conversa : {id: null}
   }
 
   constructor(
@@ -43,16 +43,18 @@ export class ConversasDetailPage {
   ionViewDidLoad() {
     this.usuarioLoggedIn();
     this.emailUsuario = this.storage.getLocalUser().email;
-    let conversaId = this.navParams.get('conversaId');
+    let conversaId;
+    this.navParams.get('conversaId') ? conversaId = this.navParams.get('conversaId')
+      : conversaId = this.storage.getLocalConversaId();
     this.conversaService.findById(conversaId)
       .subscribe(response => {
-        this.mensagens = response.mensagens;
         this.conversa = response;
+        this.mensagens = response.mensagens;
         this.mensagem.conversa.id = response.id;
         this.usuarioName();
-        this.imagemShow()
+        this.imagemShow();
       }, error =>{})
-
+    this.dataUpdate();
   }
 
   submitText(){
@@ -120,17 +122,32 @@ export class ConversasDetailPage {
         ]
     });
     alert.present();
-}
+  }
 
-imagemShow(){
-  this.mensagens.forEach(mensagem => {
-    let id = Number(mensagem.usuario.id);
-    if(id < 10){
-      mensagem.usuario.imagem = `assets/imgs/user/user${id}.png`;
-    }else{
-      mensagem.usuario.imagem = 'assets/imgs/user/usuario.jpg';
+  imagemShow(){
+    this.mensagens.forEach(mensagem => {
+      let id = Number(mensagem.usuario.id);
+      if(id < 10){
+        mensagem.usuario.imagem = `assets/imgs/user/user${id}.png`;
+      }else{
+        mensagem.usuario.imagem = 'assets/imgs/user/usuario.jpg';
+      }
+    })
+  }
+
+  dataUpdate(){
+    setInterval(() =>{this.conversaService.findById(this.conversa.id)
+      .subscribe(response => {
+        this.dataVerification(response.mensagens);
+      }, error => {})
+    }, 5000)
+  }
+
+  dataVerification(mensagens : MensagemDTO[]){
+    if(mensagens.length != this.mensagens.length){
+      this.mensagens = mensagens;
+      this.keyValidator ? this.encryptionService.decryptOutput(this.mensagens, this.key) : '';
+      this.imagemShow();
     }
-  })
-}
-
+  }
 }

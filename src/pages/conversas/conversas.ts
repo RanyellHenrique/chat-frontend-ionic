@@ -31,6 +31,7 @@ export class ConversasPage {
   }
 
   showDetail(conversaId : string){
+    this.storage.setLocalConversaId(conversaId);
     this.navCtrl.push('ConversasDetailPage', {conversaId : conversaId});
   }
 

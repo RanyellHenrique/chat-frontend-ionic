@@ -27,6 +27,7 @@ export class ProfilePage {
       this.usuarioService.findByEmail(localUser.email)
         .subscribe(response => {
           this.usuario = response;
+          this.imagemShow();
         },
         error => {
           if (error.status == 403) {
@@ -36,6 +37,15 @@ export class ProfilePage {
     }
     else {
       this.navCtrl.setRoot('HomePage')
+    }
+  }
+
+  imagemShow(){
+    let id = Number(this.usuario.id);
+    if(id < 10){
+      this.usuario.imagem = `assets/imgs/user/user${id}.png`;
+    }else{
+      this.usuario.imagem = 'assets/imgs/user/usuario.jpg';
     }
   }
 

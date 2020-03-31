@@ -57,9 +57,8 @@ export class UsuariosPage {
     this.conversaCreate.usuarios.push({id: `${usuario.id}`});
     this.conversaService.insert(this.conversaCreate)
       .subscribe(response => {
-       console.log(response);
+        this.navCtrl.setRoot('ConversasPage');
       }, error => {})
-    this.navCtrl.setRoot('ConversasPage');
   }
 
   setUsuarioLocal(){

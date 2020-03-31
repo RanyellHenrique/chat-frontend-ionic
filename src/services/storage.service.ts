@@ -23,4 +23,23 @@ export class StorageService {
             localStorage.setItem(STORAGE_KEYS.localUser, JSON.stringify(obj));
         }
     }
+
+    getLocalConversaId(){
+      let conversaId = localStorage.getItem('conversaId');
+        if (conversaId == null) {
+            return null;
+        }
+        else {
+            return JSON.parse(conversaId);
+        }
+    }
+
+    setLocalConversaId(conversaId : string){
+      if(conversaId == null){
+        localStorage.removeItem('conversaId');
+      }
+      else{
+        localStorage.setItem('conversaId', conversaId);
+      }
+    }
 }
